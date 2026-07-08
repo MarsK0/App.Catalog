@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/app/shared/lib/ui/**/src/**/*.ts",
+    "src/app/shared/components/spartan-ui/**/src/**/*.ts"
+  ],
+  "exclude": ["src/**/*.spec.ts"]
+}

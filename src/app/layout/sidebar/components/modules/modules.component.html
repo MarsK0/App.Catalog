@@ -1,0 +1,32 @@
+<hlm-sidebar-group>
+  <div hlmSidebarGroupLabel>Módulos</div>
+  <ul hlmSidebarMenu>
+    @for(module of modules(); track module.code){
+    <hlm-collapsible [expanded]="module.isActive ?? false">
+      <li hlmSidebarMenuItem>
+        <a hlmSidebarMenuButton>
+          <ng-icon [name]="module.icon" />
+          {{ module.title }}
+        </a>
+        @if(module.children; as routines){
+        <button hlmCollapsibleTrigger hlmSidebarMenuAction class="data-[state=open]:rotate-90">
+          <ng-icon name="lucideChevronRight" />
+        </button>
+        <hlm-collapsible-content>
+          <ul hlmSidebarMenuSub>
+            @for(routine of routines; track $index){
+            <li hlmSidebarMenuSubItem>
+              <a hlmSidebarMenuSubButton [routerLink]="routine.url">
+                <ng-icon [name]="routine.icon" />
+                {{ routine.title }}
+              </a>
+            </li>
+            }
+          </ul>
+        </hlm-collapsible-content>
+        }
+      </li>
+    </hlm-collapsible>
+    }
+  </ul>
+</hlm-sidebar-group>
