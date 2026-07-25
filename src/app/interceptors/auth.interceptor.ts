@@ -1,4 +1,3 @@
-import { Router } from "@angular/router";
 import { TokenService } from "../core/auth/token.service"
 import { inject } from "@angular/core";
 import { HttpBackend, HttpClient, HttpErrorResponse, HttpInterceptorFn, HttpRequest, HttpResponse } from "@angular/common/http";
@@ -6,13 +5,14 @@ import { ToastService } from "../shared/services/toast.service";
 import { BehaviorSubject, catchError, filter, map, switchMap, take, throwError } from "rxjs";
 import { environment } from "../../environments/environment";
 import { LoginResponse } from "../core/models/auth.model";
+import { NavigationService } from "../shared/services/navigation.service";
 
 let _refreshing = false;
 const _tokenSubject = new BehaviorSubject<string | null>(null);
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenService = inject(TokenService);
-  const router = inject(Router);
+  const navService = inject(NavigationService);
   const backend = inject(HttpBackend);
   const toast = inject(ToastService);
 
@@ -66,7 +66,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           _tokenSubject.next(null);
           tokenService.clear();
           toast.warning('Sessão expirada. Faça login novamente.');
-          router.navigate(['/auth/login']);
+          navService.navigate(['/auth/login']);
           return throwError(() => errorResponse)
         })
       )

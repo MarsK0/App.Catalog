@@ -5,13 +5,9 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmSwitchImports } from '@spartan-ng/helm/switch';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
-import { NgOptimizedImage } from '@angular/common';
 import { AuthService } from '../../../core/auth/auth.service';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ApiResponse } from '../../../core/models/api-response.model';
-import { ToastService } from '../../../shared/services/toast.service';
-import { Router } from '@angular/router';
+import { NavigationService } from '../../../shared/services/navigation.service';
 
 interface LoginForm {
   email: FormControl<string>;
@@ -22,13 +18,12 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [HlmCardImports, HlmInputImports, HlmFieldImports, HlmSwitchImports, HlmButtonImports, HlmSpinnerImports, NgOptimizedImage, ReactiveFormsModule],
+  imports: [HlmCardImports, HlmInputImports, HlmFieldImports, HlmSwitchImports, HlmButtonImports, HlmSpinnerImports, ReactiveFormsModule],
   templateUrl: './login.component.html'
 })
 export class LoginComponent{
   private readonly _authService = inject(AuthService);
-  private readonly _toastService = inject(ToastService);
-  private readonly _router = inject(Router);
+  private readonly _navService = inject(NavigationService);
 
   protected readonly loading = signal<boolean>(false);
 
@@ -53,7 +48,7 @@ export class LoginComponent{
 
     this._authService.login(loginData).subscribe({
       next: response => {
-        this._router.navigate(['/dashboard']);
+        this._navService.navigate(['/dashboard']);
       },
       error: () => {
         this.loading.set(false);

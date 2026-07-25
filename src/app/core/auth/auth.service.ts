@@ -1,15 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { Router } from "@angular/router";
 import { TokenService } from "./token.service";
 import { AuthenticatedUser, LoginRequest, LoginResponse } from "../models/auth.model";
 import { catchError, map, Observable, of, tap } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { NavigationService } from "../../shared/services/navigation.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService{
   private readonly _http = inject(HttpClient);
-  private readonly _router = inject(Router);
+  private readonly _navService = inject(NavigationService);
   private readonly _tokenService = inject(TokenService);
 
   private readonly _user = signal<AuthenticatedUser | null>(
@@ -41,7 +41,7 @@ export class AuthService{
       .subscribe({ error: () => {} }) // ignora erros de rede no logout
       void this._tokenService.clear();
       this._user.set(null);
-      this._router.navigate(['/auth/login']);
+      this._navService.navigate(['/auth/login']);
   }
   trySilentRefresh(): Observable<boolean>{
     return this._http
