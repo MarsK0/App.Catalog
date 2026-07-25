@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucidePanelLeft } from '@ng-icons/lucide';
+import { lucidePanelLeft, lucidePanelLeftClose, lucidePanelLeftOpen } from '@ng-icons/lucide';
 import { HlmButton, provideBrnButtonConfig } from '@spartan-ng/helm/button';
 import { HlmSidebarService } from './hlm-sidebar.service';
 
@@ -9,7 +9,7 @@ import { HlmSidebarService } from './hlm-sidebar.service';
   selector: 'button[hlmSidebarTrigger]',
   imports: [NgIcon],
   providers: [
-    provideIcons({ lucidePanelLeft }),
+    provideIcons({ lucidePanelLeftClose, lucidePanelLeftOpen }),
     provideBrnButtonConfig({ variant: 'ghost', size: 'icon-sm' }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,8 +20,10 @@ import { HlmSidebarService } from './hlm-sidebar.service';
     '(click)': '_onClick()',
   },
   template: `
-    <ng-icon name="lucidePanelLeft" />
-    <span class="sr-only">{{ srOnlyText() }}</span>
+    <div class="flex cursor-pointer">
+      <ng-icon [name]="state() === 'expanded' ? 'lucidePanelLeftClose' : 'lucidePanelLeftOpen'" />
+      <span class="sr-only">{{ srOnlyText() }}</span>
+    </div>
   `,
 })
 export class HlmSidebarTrigger {
@@ -29,6 +31,7 @@ export class HlmSidebarTrigger {
 
   public readonly srOnlyText = input('Toggle Sidebar');
 
+  protected state = this._sidebarService.state;
   protected _onClick(): void {
     this._sidebarService.toggleSidebar();
   }
