@@ -8,7 +8,9 @@ export class SlugLinkPipe implements PipeTransform {
 
   transform(path: string | string[]) {
     const slug = this.tenancyService.slug();
-    const segments = Array.isArray(path) ? path : [path];
+    const segments = Array.isArray(path)
+      ? path
+      : path.split('/').filter(Boolean);
     return slug ? ['/', slug, ...segments] : ['/', ...segments];
   }
 }
