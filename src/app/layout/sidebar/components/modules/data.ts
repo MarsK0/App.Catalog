@@ -3,12 +3,8 @@ export class ModuleNavItem {
     public code: string,
     public title: string,
     public icon: string,
-    public children: readonly NavItem[],
-    public isActive = false
+    public children: readonly NavItem[]
   ) {}
-    toggle() {
-    this.isActive = !this.isActive;
-  }
 }
 export interface NavItem {
   title: string;

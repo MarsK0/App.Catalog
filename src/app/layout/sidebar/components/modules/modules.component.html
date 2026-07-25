@@ -2,19 +2,20 @@
   <div hlmSidebarGroupLabel>Módulos</div>
   <ul hlmSidebarMenu>
     @for(module of modules(); track module.code){
-    <hlm-collapsible [expanded]="module.isActive ?? false">
+    <hlm-collapsible>
       <li hlmSidebarMenuItem>
-        <a hlmSidebarMenuButton>
+        <button hlmSidebarMenuButton hlmCollapsibleTrigger class="group/trigger w-full cursor-pointer">
           <ng-icon [name]="module.icon" />
           {{ module.title }}
-        </a>
-        @if(module.children; as routines){
-        <button hlmCollapsibleTrigger hlmSidebarMenuAction class="data-[state=open]:rotate-90">
-          <ng-icon name="lucideChevronRight" />
+          @if(module.children && module.children.length > 0){
+          <ng-icon name="lucideChevronRight"
+            class="ml-auto transition-transform duration-200 group-data-[state=open]/trigger:rotate-90" />
+          }
         </button>
+        @if(module.children && module.children.length > 0){
         <hlm-collapsible-content>
           <ul hlmSidebarMenuSub>
-            @for(routine of routines; track $index){
+            @for(routine of module.children; track $index){
             <li hlmSidebarMenuSubItem>
               <a hlmSidebarMenuSubButton [routerLink]="routine.url">
                 <ng-icon [name]="routine.icon" />

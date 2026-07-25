@@ -6,6 +6,7 @@ import { Router, RouterLink } from "@angular/router";
 import { MODULES } from "./data";
 import { lucideChevronRight, lucideShieldUser, lucideUser } from "@ng-icons/lucide"
 import { NgIcon, provideIcons } from "@ng-icons/core";
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'app-modules',
