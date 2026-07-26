@@ -3,12 +3,8 @@ export class ModuleNavItem {
     public code: string,
     public title: string,
     public icon: string,
-    public children: readonly NavItem[],
-    public isActive = false
+    public children: readonly NavItem[]
   ) {}
-    toggle() {
-    this.isActive = !this.isActive;
-  }
 }
 export interface NavItem {
   title: string;
@@ -29,19 +25,19 @@ const PLATFORM: ModuleNavItem = new ModuleNavItem(
 const TABLES: ModuleNavItem = new ModuleNavItem(
   "TABLES",
   "Tabelas",
-  "",
+  "lucideTableProperties",
   []
 );
 const CATALOG: ModuleNavItem = new ModuleNavItem(
   "CATALOG",
   "Catálogo",
-  "",
+  "lucideLayoutList",
   [] 
 );
 const COMERCIAL: ModuleNavItem = new ModuleNavItem(
   "COMERCIAL",
   "Comercial",
-  "",
+  "lucideShoppingCart",
   []
 );
 // #endregion
@@ -50,5 +46,5 @@ export const MODULES: readonly ModuleNavItem[] = [
   PLATFORM,
   TABLES,
   CATALOG,
-  COMERCIAL
+  COMERCIAL,
 ];
