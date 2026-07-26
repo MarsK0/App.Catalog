@@ -43,6 +43,9 @@
       ],
       "@spartan-ng/helm/collapsible": [
         "./src/app/shared/components/spartan-ui/collapsible/src/index.ts"
+      ],
+      "@spartan-ng/helm/dropdown-menu": [
+        "./src/app/shared/components/spartan-ui/dropdown-menu/src/index.ts"
       ]
     }
   },

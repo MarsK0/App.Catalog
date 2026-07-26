@@ -10,8 +10,8 @@ import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
   imports: [SidebarComponent, HeaderComponent, RouterOutlet, HlmSidebarImports],
   template: `
   <div hlmSidebarWrapper class="h-dvh overflow-hidden">
-    <hlm-sidebar variant="inset">
-      <app-sidebar />
+    <hlm-sidebar variant="inset" class="h-full">
+      <app-sidebar class="flex h-full w-full flex-col"/>
     </hlm-sidebar>
     <!-- Alterado seletor de hlm-sidebar-inset de main para div para melhorar semantica e extrair o header de dentro de main -->
     <div hlmSidebarInset>

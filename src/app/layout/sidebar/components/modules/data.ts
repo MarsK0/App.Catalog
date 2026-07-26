@@ -25,19 +25,19 @@ const PLATFORM: ModuleNavItem = new ModuleNavItem(
 const TABLES: ModuleNavItem = new ModuleNavItem(
   "TABLES",
   "Tabelas",
-  "",
+  "lucideTableProperties",
   []
 );
 const CATALOG: ModuleNavItem = new ModuleNavItem(
   "CATALOG",
   "Catálogo",
-  "",
+  "lucideLayoutList",
   [] 
 );
 const COMERCIAL: ModuleNavItem = new ModuleNavItem(
   "COMERCIAL",
   "Comercial",
-  "",
+  "lucideShoppingCart",
   []
 );
 // #endregion
@@ -46,5 +46,5 @@ export const MODULES: readonly ModuleNavItem[] = [
   PLATFORM,
   TABLES,
   CATALOG,
-  COMERCIAL
+  COMERCIAL,
 ];

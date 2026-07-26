@@ -4,14 +4,23 @@ import { HlmSidebarImports } from "@spartan-ng/helm/sidebar";
 import { AuthService } from "../../../../core/auth/auth.service";
 import { Router, RouterLink } from "@angular/router";
 import { MODULES } from "./data";
-import { lucideChevronRight, lucideShieldUser, lucideUser } from "@ng-icons/lucide"
+import { lucideChevronRight, lucideLayoutList, lucideShieldUser, lucideShoppingCart, lucideTableProperties, lucideUser } from "@ng-icons/lucide"
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'app-modules',
-  providers: [provideIcons({ lucideChevronRight, lucideShieldUser, lucideUser })],
   imports: [HlmSidebarImports, HlmCollapsibleImports, NgIcon, RouterLink],
+  providers: [
+    provideIcons({
+      lucideChevronRight,
+      lucideShieldUser,
+      lucideTableProperties,
+      lucideLayoutList,
+      lucideShoppingCart,
+      lucideUser
+    })
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modules.component.html'
 })

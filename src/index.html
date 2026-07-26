@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR">
 
 <head>
   <meta charset="utf-8">
@@ -10,6 +10,14 @@
   <meta http-equiv="X-Frame-Options" content="DENY" />
   <meta http-equiv="Referrer-Policy" content="no-referrer" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Aplica o tema antes do carregamento do DOM de acordo com LocalStorage >>> Padrão OS >>> Light (Padrão) -->
+  <script>
+    document.documentElement.classList.toggle(
+      "dark",
+      localStorage.getItem('theme') === "dark" ||
+      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+    );
+  </script>
 </head>
 
 <body class="w-full h-dvh">
