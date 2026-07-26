@@ -15,13 +15,18 @@ export const routes: Routes = [
       {
         path: '',
         canActivate: [AuthGuard],
-        loadComponent: () =>
-          import('./layout/shell/shell.component').then(m => m.ShellComponent),
+        loadComponent: () => import('./layout/shell/shell.component').then(m => m.ShellComponent),
         children: [
           {
-            path: 'dashboard',
-            loadComponent: () =>
-              import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+            path: 'administration',
+            data: { breadcrumb: 'Administração', navigable: false },
+            children: [
+              {
+                path: 'tenants',
+                data: { breadcrumb: 'Clientes' },
+                loadComponent: () => import('./features/modules/platform/tenant/tenant.component').then(m => m.PlatformTenantComponent)
+              }
+            ]
           }
         ]
       }

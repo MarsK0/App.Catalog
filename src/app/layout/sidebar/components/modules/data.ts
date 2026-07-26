@@ -14,12 +14,12 @@ export interface NavItem {
 }
 
 // #region Modulos
-const PLATFORM: ModuleNavItem = new ModuleNavItem(
-  "PLATFORM",
-  "Platform",
+const ADMINISTRATION: ModuleNavItem = new ModuleNavItem(
+  "ADMINISTRATION",
+  "Administração",
   "lucideShieldUser",
   [
-    { code: "TENANT", title: "Clientes", url: "#", icon: "lucideUser" }
+    { code: "TENANT", title: "Clientes", url: "administration/tenants", icon: "lucideUser" }
   ]
 );
 const TABLES: ModuleNavItem = new ModuleNavItem(
@@ -43,7 +43,7 @@ const COMERCIAL: ModuleNavItem = new ModuleNavItem(
 // #endregion
 
 export const MODULES: readonly ModuleNavItem[] = [
-  PLATFORM,
+  ADMINISTRATION,
   TABLES,
   CATALOG,
   COMERCIAL,

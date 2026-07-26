@@ -48,7 +48,7 @@ export class LoginComponent{
 
     this._authService.login(loginData).subscribe({
       next: response => {
-        this._navService.navigate(['/dashboard']);
+        this._navService.navigate(['/']);
       },
       error: () => {
         this.loading.set(false);
