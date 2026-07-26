@@ -22,4 +22,8 @@ export class NavUserComponent {
   
   protected readonly user = this.authService.user;
   protected readonly menuSide = computed(() => (this.sidebarService.isMobile()) ? 'top' : 'right');
+
+  protected logout(){
+    this.authService.logout();
+  }
 }
