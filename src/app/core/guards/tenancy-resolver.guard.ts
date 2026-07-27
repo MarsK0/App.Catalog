@@ -1,12 +1,29 @@
-import { CanActivateFn } from "@angular/router";
-import { TenancyService } from "../../shared/services/tenancy.service";
+import { CanActivateFn, Router } from "@angular/router";
+import { TenancyResolverService } from "../../shared/services/tenancy-resolver.service";
 import { inject } from "@angular/core";
+import { TenancyService } from "../../shared/services/tenancy.service";
+import { catchError, map, of } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
 
 export const TenancyResolverGuard: CanActivateFn = (route, _) => {
+  const router = inject(Router);
   const slug = route.paramMap.get('slug');
 
   if(slug)
-    inject(TenancyService).setSlug(slug);
+    inject(TenancyResolverService).setSlug(slug);
 
-  return true;
+  return inject(TenancyService).checkSlugExists()
+    .pipe(
+      map(exists => {
+        if(exists) 
+          return true;
+        return router.createUrlTree(['/notfound']);
+      }),
+      catchError((responseError: HttpErrorResponse) => {
+        if(responseError.status === 404)
+          return of(router.createUrlTree(['/notfound']));
+
+        return of(router.createUrlTree(['/error']));
+      })
+    )
 }

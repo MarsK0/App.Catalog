@@ -4,6 +4,10 @@ import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
+    path: 'notfound',
+    loadComponent: () => import('./layout/notfound/notfound.component').then(m => m.NotFoundComponent)
+  },
+  {
     path: ':slug',
     canActivate: [TenancyResolverGuard],
     children: [

@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router, UrlTree } from "@angular/router";
-import { TenancyService } from "./tenancy.service";
+import { TenancyResolverService } from "./tenancy-resolver.service";
 import { filter } from "rxjs";
 
 export type Breadcrumb = {
@@ -11,7 +11,7 @@ export type Breadcrumb = {
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
   private router = inject(Router);
-  private tenancyService = inject(TenancyService);
+  private tenancyResolverService = inject(TenancyResolverService);
   private _breadcrumbs = signal<Breadcrumb[]>([]);
 
   public readonly breadcrumbs = this._breadcrumbs.asReadonly();
@@ -36,7 +36,7 @@ export class NavigationService {
     return this.router.createUrlTree(path, extras);
   }
   private buildCommands(commands: any[]): any[] {
-    const slug = this.tenancyService.slug();
+    const slug = this.tenancyResolverService.slug();
     const normalized = commands
       .filter(f => f !== '/')
       .flatMap(m => typeof m === 'string' ? m.split('/').filter(Boolean) : m);
