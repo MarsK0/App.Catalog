@@ -1,11 +1,13 @@
-import { Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { map, Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
-export class TenancyService{
-  private readonly _slug = signal<string | null>(null);
-  readonly slug = this._slug.asReadonly();
+export class TenancyService {
+  private readonly http = inject(HttpClient);
 
-  setSlug(slug: string): void {
-    this._slug.set(slug);
+  checkSlugExists(): Observable<boolean> {
+    return this.http.get('/api/tenancy/slugexists', { observe: 'response' })
+      .pipe(map(response => response.status === 200));
   }
 }

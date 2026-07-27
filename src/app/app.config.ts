@@ -7,7 +7,6 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tenancyInterceptor } from './interceptors/tenancy.interceptor';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { errorInterceptor } from './interceptors/errors.interceptor';
-import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
