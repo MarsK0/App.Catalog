@@ -4,7 +4,7 @@ import { HttpBackend, HttpClient, HttpErrorResponse, HttpInterceptorFn, HttpRequ
 import { ToastService } from "../shared/services/toast.service";
 import { BehaviorSubject, catchError, filter, map, switchMap, take, throwError } from "rxjs";
 import { environment } from "../../environments/environment";
-import { LoginResponse } from "../core/models/auth.model";
+import { LoginResponse } from "../core/models/auth/auth.model";
 import { NavigationService } from "../shared/services/navigation.service";
 
 let _refreshing = false;
