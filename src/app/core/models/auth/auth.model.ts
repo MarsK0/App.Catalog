@@ -1,5 +1,7 @@
+import { RoleInfo } from "./role.model";
+
 export interface LoginRequest {
-  readonly email: string;
+  readonly login: string;
   readonly password: string;
   readonly rememberMe?: boolean;
 }
@@ -10,12 +12,12 @@ export interface LoginResponse {
   readonly personId: string;
   readonly name: string;
   readonly email: string;
-  readonly permissions: readonly string[];
+  readonly roles: readonly RoleInfo[];
 }
 
 export interface AuthenticatedUser {
   readonly id: string;
   readonly name: string;
   readonly email: string;
-  readonly permissions: readonly string[];
+  readonly roles: readonly RoleInfo[];
 }

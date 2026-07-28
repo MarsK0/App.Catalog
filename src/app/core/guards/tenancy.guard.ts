@@ -5,7 +5,7 @@ import { TenancyService } from "../../shared/services/tenancy.service";
 import { catchError, map, of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 
-export const TenancyResolverGuard: CanActivateFn = (route, _) => {
+export const TenancyGuard: CanActivateFn = (route, _) => {
   const router = inject(Router);
   const slug = route.paramMap.get('slug');
 

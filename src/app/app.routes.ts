@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { TenancyResolverGuard } from './core/guards/tenancy-resolver.guard';
+import { TenancyGuard } from './core/guards/tenancy.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: ':slug',
-    canActivate: [TenancyResolverGuard],
+    canActivate: [TenancyGuard],
     children: [
       {
         path: 'auth/login',

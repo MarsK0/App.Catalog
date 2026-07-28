@@ -5,7 +5,7 @@ import { AuthService } from "../auth/auth.service";
 import { NavigationService } from "../../shared/services/navigation.service";
 import { map } from "rxjs";
 
-export const AuthGuard: CanActivateFn = (_route, state) => {
+export const AuthGuard: CanActivateFn = (_route, _) => {
   const platformId = inject(PLATFORM_ID);
   if(!isPlatformBrowser(platformId)){
     return true;

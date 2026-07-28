@@ -10,7 +10,7 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
 import { NavigationService } from '../../../shared/services/navigation.service';
 
 interface LoginForm {
-  email: FormControl<string>;
+  login: FormControl<string>;
   password: FormControl<string>;
   rememberMe: FormControl<boolean>;
 }
@@ -28,9 +28,9 @@ export class LoginComponent{
   protected readonly loading = signal<boolean>(false);
 
   protected readonly form = new FormGroup<LoginForm>({
-    email: new FormControl('', {
+    login: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.email]
+      validators: [Validators.required, Validators.minLength(3)]
     }),
     password: new FormControl('', {
       nonNullable: true,
