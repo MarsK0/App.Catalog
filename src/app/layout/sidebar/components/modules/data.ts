@@ -19,7 +19,7 @@ const ADMINISTRATION: ModuleNavItem = new ModuleNavItem(
   "Administração",
   "lucideShieldUser",
   [
-    { code: "TENANT", title: "Clientes", url: "administration/tenants", icon: "lucideUser" }
+    { code: "TENANT", title: "Clientes", url: "system/tenants", icon: "lucideUser" }
   ]
 );
 const TABLES: ModuleNavItem = new ModuleNavItem(
