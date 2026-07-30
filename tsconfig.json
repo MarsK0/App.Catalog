@@ -46,6 +46,9 @@
       ],
       "@spartan-ng/helm/dropdown-menu": [
         "./src/app/shared/components/spartan-ui/dropdown-menu/src/index.ts"
+      ],
+      "@spartan-ng/helm/button-group": [
+        "./src/app/shared/components/spartan-ui/button-group/src/index.ts"
       ]
     }
   },

@@ -48,8 +48,7 @@ export class NavigationService {
   private buildBreadcrumb(route: ActivatedRouteSnapshot, parentUrl: string, crumbs: Breadcrumb[]){
     const routeUrl = route.url.map(segment => segment.path).join('/');
     const currentUrl = routeUrl ? `${parentUrl}/${routeUrl}` : parentUrl;
-
-    const label = route.data['breadcrumb'];
+    const label = route.routeConfig?.data?.['breadcrumb'];
     const navigable = route.data['navigable'] ?? true;
 
     if(label){

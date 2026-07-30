@@ -1,0 +1,23 @@
+<hlm-card class="w-full p-5">
+
+  <!-- Header ações -->
+  <div class="w-full flex flex-col sm:flex-row sm:justify-end gap-1">
+    <button (click)="save()" hlmBtn variant="default"
+      class="bg-green-500 cursor-pointer border border-green-500 hover:bg-transparent hover:text-green-500">
+      Salvar
+      <ng-icon name="lucideSave" />
+    </button>
+    <button (click)="cancel()" hlmBtn variant="default"
+      class="bg-orange-500 cursor-pointer border border-orange-500 hover:bg-transparent hover:text-orange-500">
+      Cancelar
+      <ng-icon name="lucideBan" />
+    </button>
+    <button (click)="delete()" hlmBtn variant="default"
+      class="bg-red-500 cursor-pointer border border-red-500 hover:bg-transparent hover:text-red-500">
+      Excluir
+      <ng-icon name="lucideTrash2" />
+    </button>
+  </div>
+
+  <!-- Formulário -->
+</hlm-card>
