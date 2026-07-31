@@ -1,11 +1,20 @@
-import { Component, computed, inject, OnInit, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { lucideBan, lucidePlus, lucideSave, lucideTrash2 } from "@ng-icons/lucide";
 import { HlmButtonImports } from "@spartan-ng/helm/button";
 import { HlmButtonGroupImports } from "@spartan-ng/helm/button-group";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { ModuleService } from "../../../../../shared/services/system/module.service";
-import { finalize } from "rxjs";
+import { BaseForm } from "../../../../../shared/utils/base-form";
+import { Tenant } from "../../../../../core/models/system/tenant.model";
+import { TenancyService } from "../../../../../shared/services/system/tenancy.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+
+type TenantForm = FormGroup<{
+  name: FormControl<string>,
+  slug: FormControl<string>,
+  modules: FormControl<string[]>
+}>;
 
 @Component({
   selector: 'app-tenant-form',
@@ -21,31 +30,30 @@ import { finalize } from "rxjs";
   ],
   templateUrl: './tenant-form.component.html'
 })
-export class TenantFormComponent implements OnInit {
+export class TenantFormComponent extends BaseForm<Tenant> {
+  private readonly tenancyService = inject(TenancyService);
   private readonly moduleService = inject(ModuleService);
 
-  private _loading = signal<boolean>(false);
   private _modules = signal<string[]>([]);
 
-  protected readonly loading = this._loading.asReadonly();
   protected readonly modules = this._modules.asReadonly();
 
-  ngOnInit(): void {
-    this._loading.set(true);
+  override ngOnInit(): void {
     this.moduleService.list()
-      .pipe(
-        finalize(() => this._loading.set(false)) 
-      )
       .subscribe(m => this._modules.set(m));
+    super.ngOnInit();
   }
 
-  protected save(){
-    alert('save');
+  protected override buildForm(): TenantForm {
+    return this.fb.nonNullable.group({
+      name: ['', Validators.required],
+      slug: ['', Validators.required],
+      modules: this.fb.nonNullable.control<string[]>([])
+    })
   }
-  protected cancel(){
-    alert('cancel');
-  }
-  protected delete(){
-    alert('delete');
-  }
+
+  protected getById(id: string) { return this.tenancyService.getById(id) };
+  protected create(tenant: Tenant) { return this.tenancyService.create(tenant) };
+  protected update(id: string, tenant: Tenant) { return this.tenancyService.update(id,tenant) };
+  protected remove(id: string) { return this.tenancyService.delete(id) };
 }
