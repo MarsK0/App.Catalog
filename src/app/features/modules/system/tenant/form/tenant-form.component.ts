@@ -8,7 +8,9 @@ import { ModuleService } from "../../../../../shared/services/system/module.serv
 import { BaseForm } from "../../../../../shared/utils/base-form";
 import { Tenant } from "../../../../../core/models/system/tenant.model";
 import { TenancyService } from "../../../../../shared/services/system/tenancy.service";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from "@angular/forms";
+import { HlmFieldGroup, HlmField } from "@spartan-ng/helm/field";
+import { HlmInput } from "@spartan-ng/helm/input";
 
 type TenantForm = FormGroup<{
   name: FormControl<string>,
@@ -19,7 +21,7 @@ type TenantForm = FormGroup<{
 @Component({
   selector: 'app-tenant-form',
   standalone: true,
-  imports: [HlmCardImports, HlmButtonGroupImports, HlmButtonImports, NgIcon],
+  imports: [HlmCardImports, HlmButtonGroupImports, HlmButtonImports, NgIcon, ɵInternalFormsSharedModule, ReactiveFormsModule, HlmFieldGroup, HlmField, HlmInput],
   providers: [
     provideIcons({
       lucidePlus,
@@ -30,7 +32,7 @@ type TenantForm = FormGroup<{
   ],
   templateUrl: './tenant-form.component.html'
 })
-export class TenantFormComponent extends BaseForm<Tenant> {
+export class TenantFormComponent extends BaseForm<Tenant, TenantForm> {
   private readonly tenancyService = inject(TenancyService);
   private readonly moduleService = inject(ModuleService);
 
@@ -46,10 +48,15 @@ export class TenantFormComponent extends BaseForm<Tenant> {
 
   protected override buildForm(): TenantForm {
     return this.fb.nonNullable.group({
-      name: ['', Validators.required],
       slug: ['', Validators.required],
+      name: ['', Validators.required],
       modules: this.fb.nonNullable.control<string[]>([])
     })
+  }
+  protected override applyFieldRules() {
+    if(this.isEditMode()){
+      this.modelForm.controls.slug.disable();
+    }
   }
 
   protected getById(id: string) { return this.tenancyService.getById(id) };

@@ -20,4 +20,16 @@
   </div>
 
   <!-- Formulário -->
+  <form class="w-full flex flex-col" [formGroup]="modelForm">
+    <div hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-3">
+      <div hlmField>
+        <label hlmFieldLabel for="slug">Slug</label>
+        <input hlmInput type="text" id="slug" formControlName="slug">
+      </div>
+      <div hlmField class="lg:col-span-2">
+        <label hlmFieldLabel for="name">Nome</label>
+        <input hlmInput type="text" id="name" formControlName="name">
+      </div>
+    </div>
+  </form>
 </hlm-card>

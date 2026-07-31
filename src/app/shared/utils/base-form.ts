@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnInit, signal } from "@angular/core";
+import { computed, Directive, effect, inject, OnInit, signal } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { finalize, Observable } from "rxjs";
@@ -20,6 +20,17 @@ export abstract class BaseForm<
 
   protected savedModel: TModel = {} as TModel;
   protected readonly modelForm: TForm = this.buildForm();
+
+  constructor(){
+    effect(() => {
+      if(this.loading() || this.saving()){
+        this.modelForm.disable({ emitEvent: false });
+      }else{
+        this.modelForm.enable({ emitEvent: false });
+        this.applyFieldRules();
+      }
+    });
+  }
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -102,4 +113,5 @@ export abstract class BaseForm<
   protected onDeleteSuccess(){}
   protected onDeleteError(err: unknown){}
   protected onCancel(){}
+  protected applyFieldRules() {}
 }
