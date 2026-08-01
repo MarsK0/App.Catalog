@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
 import { HlmCollapsibleImports } from "@spartan-ng/helm/collapsible";
 import { HlmSidebarImports } from "@spartan-ng/helm/sidebar";
-import { AuthService } from "../../../../core/auth/auth.service";
+import { AuthService } from "../../../../core/services/auth/auth.service";
 import { Router, RouterLink } from "@angular/router";
-import { MODULES } from "./data";
+import { MODULES } from "../../../../core/models/modules";
 import { lucideChevronRight, lucideLayoutList, lucideShieldUser, lucideShoppingCart, lucideTableProperties, lucideUser } from "@ng-icons/lucide"
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { NgClass } from "@angular/common";

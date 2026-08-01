@@ -6,7 +6,7 @@
       <li hlmSidebarMenuItem>
         <button hlmSidebarMenuButton hlmCollapsibleTrigger class="group/trigger w-full cursor-pointer">
           <ng-icon [name]="module.icon" />
-          {{ module.title }}
+          {{ module.label }}
           @if(module.children && module.children.length > 0){
           <ng-icon name="lucideChevronRight"
             class="ml-auto transition-transform duration-200 group-data-[state=open]/trigger:rotate-90" />
@@ -19,7 +19,7 @@
             <li hlmSidebarMenuSubItem>
               <a hlmSidebarMenuSubButton [routerLink]="routine.url">
                 <ng-icon [name]="routine.icon" />
-                {{ routine.title }}
+                {{ routine.label }}
               </a>
             </li>
             }

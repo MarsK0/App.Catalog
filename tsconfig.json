@@ -49,7 +49,8 @@
       ],
       "@spartan-ng/helm/button-group": [
         "./src/app/shared/components/spartan-ui/button-group/src/index.ts"
-      ]
+      ],
+      "@spartan-ng/helm/combobox": ["./src/app/shared/components/spartan-ui/combobox/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

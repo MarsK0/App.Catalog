@@ -23,6 +23,10 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         loadComponent: () => import('./layout/shell/shell.component').then(m => m.ShellComponent),
         loadChildren: () => import('./features/modules/modules.routes').then(m => m.modulesRoutes)
+      },
+      {
+        path: '**',
+        redirectTo: ''
       }
     ]
   }

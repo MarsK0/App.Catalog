@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from "@angular/common";
 import { inject, PLATFORM_ID } from "@angular/core";
 import { CanActivateFn } from "@angular/router";
-import { AuthService } from "../auth/auth.service";
+import { AuthService } from "../services/auth/auth.service";
 import { NavigationService } from "../../shared/services/navigation.service";
 import { map } from "rxjs";
 

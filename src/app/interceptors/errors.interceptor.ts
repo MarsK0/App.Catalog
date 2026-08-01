@@ -24,7 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         }else if(responseError.status >= 500){
           toastService.error(message ?? 'Um erro ocorreu. Se persistir, contate o suporte.');
         }else if(responseError.status >= 400){
-          toastService.error(message ?? 'Não foi possível concluir a operação.');
+          toastService.warning(message ?? 'Não foi possível concluir a operação.');
         }
       }
 

@@ -40,7 +40,7 @@ export abstract class BaseForm<
     }
   }
 
-  protected save() {
+  protected save(){
     if(this.modelForm.invalid){
       this.modelForm.markAllAsTouched();
       return;
@@ -57,7 +57,7 @@ export abstract class BaseForm<
       .subscribe({
         next: saved => {
           this.applyModel(saved);
-          this.onSaveSucceess(saved);
+          this.onSaveSuccess(saved);
         },
         error: err => this.onSaveError(err)
       });
@@ -108,7 +108,7 @@ export abstract class BaseForm<
   protected abstract update(id: string, model: Partial<TModel>): Observable<TModel>;
   protected abstract remove(id: string): Observable<any>;
 
-  protected onSaveSucceess(model: TModel){}
+  protected onSaveSuccess(model: TModel){}
   protected onSaveError(err: unknown){}
   protected onDeleteSuccess(){}
   protected onDeleteError(err: unknown){}

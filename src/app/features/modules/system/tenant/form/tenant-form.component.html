@@ -26,9 +26,31 @@
         <label hlmFieldLabel for="slug">Slug</label>
         <input hlmInput type="text" id="slug" formControlName="slug">
       </div>
-      <div hlmField class="lg:col-span-2">
+      <div hlmField>
         <label hlmFieldLabel for="name">Nome</label>
         <input hlmInput type="text" id="name" formControlName="name">
+      </div>
+      <div hlmField>
+        <label hlmFieldLabel for="modules">Módulos</label>
+        <hlm-combobox-multiple formControlName="modules">
+          <hlm-combobox-chips class="max-w-xs">
+            <ng-template hlmComboboxValues let-selectedModules>
+              @for(selectedModule of selectedModules; track $index){
+              <hlm-combobox-chip [value]="selectedModule">{{ moduleLabel(selectedModule) }}</hlm-combobox-chip>
+              }
+            </ng-template>
+
+            <input hlmComboboxChipInput>
+          </hlm-combobox-chips>
+          <hlm-combobox-content *hlmComboboxPortal>
+            <hlm-combobox-empty>Nenhum módulo encontrado</hlm-combobox-empty>
+            <div hlmComboboxList>
+              @for(module of modules; track module.code){
+              <hlm-combobox-item [value]="module.code">{{ module.label }}</hlm-combobox-item>
+              }
+            </div>
+          </hlm-combobox-content>
+        </hlm-combobox-multiple>
       </div>
     </div>
   </form>

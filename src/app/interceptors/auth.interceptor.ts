@@ -1,4 +1,4 @@
-import { TokenService } from "../core/auth/token.service"
+import { TokenService } from "../core/services/auth/token.service"
 import { inject } from "@angular/core";
 import { HttpBackend, HttpClient, HttpErrorResponse, HttpInterceptorFn, HttpRequest, HttpResponse } from "@angular/common/http";
 import { ToastService } from "../shared/services/toast.service";

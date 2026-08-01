@@ -16,6 +16,7 @@ export const systemRoutes: Routes = [
       },
       {
         path: ':id',
+        data: { breadcrumb: 'Editar' },
         loadComponent: () => import('./tenant/form/tenant-form.component').then(m => m.TenantFormComponent)
       } 
     ]
