@@ -8,6 +8,73 @@
     </a>
   </div>
 
-  <!-- Listagem -->
+  <!-- Filtros -->
+  <hlm-card class="w-full p-5">
+    <h3 hlmCardTitle>Filtros</h3>
+    <form class="w-full" [formGroup]="filterForm">
+      <div hlmFieldGroup>
+        <div hlmField>
+          <label hlmFieldLabel for="search">Buscar</label>
+          <input hlmInput id="search" type="text" formControlName="search">
+        </div>
+      </div>
+    </form>
+  </hlm-card>
 
+  <!-- Listagem -->
+  <hlm-card class="w-full p-5">
+    <h3 hlmCardTitle>Dados</h3>
+
+    <!-- Tabela -->
+    <div hlmTableContainer>
+      <table hlmTable>
+        <thead hlmTableHeader>
+          <tr hlmTableRow>
+            <th hlmTableHead>Slug</th>
+            <th hlmTableHead>Nome</th>
+            <th hlmTableHead class="w-20">Ações</th>
+          </tr>
+        </thead>
+        <tbody hlmTableBody>
+          @if(pagination.loading()){
+          <tr hlmTableRow>
+            <td [colSpan]="3">
+              <hlm-spinner class="text-2xl text-blue-500" />
+            </td>
+          </tr>
+          }@else{
+          @for(item of pagination.items(); track item.slug){
+          <tr hlmTableRow>
+            <td hlmTableCell>{{ item.slug }}</td>
+            <td hlmTableCell>{{ item.name }}</td>
+            <td hlmTableCell class="w-40">
+              <button hlmBtn class="cursor-pointer" variant="ghost" [hlmDropdownMenuTrigger]="menu"><ng-icon
+                  name="lucideEllipsis" /></button>
+              <ng-template #menu>
+                <hlm-dropdown-menu class="w-40">
+                  <hlm-dropdown-menu-group>
+                    <button hlmDropdownMenuItem
+                      class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:bg-gray-200! dark:hover:bg-blue-800!"
+                      (click)="edit(item.id)">
+                      Editar
+                      <ng-icon name="lucidePencil" />
+                    </button>
+                  </hlm-dropdown-menu-group>
+                </hlm-dropdown-menu>
+              </ng-template>
+            </td>
+          </tr>
+          }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginação -->
+    @if(!pagination.loading()){
+    <hlm-numbered-pagination-query-params [currentPage]="pagination.pageIndex() + 1"
+      [itemsPerPage]="pagination.pageSize()" (itemsPerPageChange)="pagination.setPageSize($event)"
+      [totalItems]="pagination.totalCount()" />
+    }
+  </hlm-card>
 </hlm-card>

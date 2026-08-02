@@ -1,5 +1,5 @@
 export interface Tenant {
-  tenantId: string;
+  id: string;
   name: string;
   slug: string;
   modules: string[];

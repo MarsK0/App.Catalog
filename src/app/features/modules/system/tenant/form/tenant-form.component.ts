@@ -63,7 +63,7 @@ export class TenantFormComponent extends BaseForm<Tenant, TenantForm> {
   protected remove(id: string) { return this.tenancyService.delete(id) };
 
   protected override onSaveSuccess(tenant: Tenant) {
-    this.navigationService.navigate(['system', 'tenant', tenant.tenantId]);   
+    this.navigationService.navigate(['system', 'tenant', tenant.id]);   
   }
   protected override onCancel() {
     this.navigationService.navigate(['system', 'tenant']);
