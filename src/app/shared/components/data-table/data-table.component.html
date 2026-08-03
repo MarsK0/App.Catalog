@@ -1,0 +1,111 @@
+<div class="flex flex-col py-4 sm:flex-row sm:justify-end sm:items-center">
+
+  <!-- Seletor de colunas hidable -->
+  @if(hidableColumns().length){
+  <button hlmBtn variant="outline" [hlmDropdownMenuTrigger]="menu">
+    Colunas
+    <ng-icon name="lucideChevronDown" class="ml-2" size="16" />
+  </button>
+  <ng-template #menu>
+    <hlm-dropdown-menu class="w-40">
+      @for (column of hidableColumns(); track column.id) {
+      <button hlmDropdownMenuCheckbox class="capitalize" [checked]="column.getIsVisible()"
+        (triggered)="column.toggleVisibility()">
+        <hlm-dropdown-menu-checkbox-indicator />
+        {{ columnDefFor(column.id)?.label ?? column.id }}
+      </button>
+      }
+    </hlm-dropdown-menu>
+  </ng-template>
+  }
+</div>
+<!-- Tabela -->
+<div class="overflow-hidden rounded-md border">
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTHead>
+        <tr hlmTr>
+          @if (selectable()) {
+          <th hlmTh class="w-10">
+            <input type="checkbox" class="border-input h-4 w-4 rounded" [checked]="table.getIsAllPageRowsSelected()"
+              (change)="table.toggleAllPageRowsSelected($any($event.target).checked)" />
+          </th>
+          }
+          @for (header of table.getHeaderGroups()[0]?.headers ?? []; track header.id) {
+          <th hlmTh [ngClass]="alignClass(header.column.id)">
+            @if (columnDefFor(header.column.id)?.headerCellDef; as headerDef) {
+            <ng-container [ngTemplateOutlet]="headerDef.template"
+              [ngTemplateOutletContext]="{ $implicit: header.column.id, column: header.column }" />
+            } @else if (header.column.getCanSort()) {
+            <button type="button"
+              class="hover:text-foreground text-muted-foreground flex items-center gap-1 text-sm font-medium"
+              title="Clique para ordenar. Shift+clique para ordenar por múltiplas colunas."
+              (click)="header.column.toggleSorting(undefined, $event.shiftKey)">
+              {{ columnDefFor(header.column.id)?.label ?? header.column.id }}
+              @switch (header.column.getIsSorted()) {
+              @case ('asc') {
+              <ng-icon name="lucideArrowUp" size="14" />
+              }
+              @case ('desc') {
+              <ng-icon name="lucideArrowDown" size="14" />
+              }
+              @default {
+              <ng-icon name="lucideArrowUpDown" size="14" class="opacity-40" />
+              }
+              }
+              @if (sorting().length > 1 && header.column.getIsSorted()) {
+              <span class="text-muted-foreground text-[10px] font-normal">{{ header.column.getSortIndex() + 1
+                }}</span>
+              }
+            </button>
+            } @else {
+            <span class="text-sm font-medium">{{ columnDefFor(header.column.id)?.label ?? header.column.id }}</span>
+            }
+          </th>
+          }
+          @if (rowActionsDef()) {
+          <th hlmTh class="w-10"></th>
+          }
+        </tr>
+      </thead>
+      <tbody hlmTBody>
+        @for (row of table.getRowModel().rows; track row.id) {
+        <tr hlmTr [attr.data-state]="row.getIsSelected() ? 'selected' : null">
+          @if (selectable()) {
+          <td hlmTd>
+            <input type="checkbox" class="border-input h-4 w-4 rounded" [checked]="row.getIsSelected()"
+              (change)="row.toggleSelected($any($event.target).checked)" />
+          </td>
+          }
+          @for (cell of row.getVisibleCells(); track cell.id) {
+          <td hlmTd [ngClass]="alignClass(cell.column.id)">
+            @if (columnDefFor(cell.column.id)?.cellDef; as cellDef) {
+            <ng-container [ngTemplateOutlet]="cellDef.template"
+              [ngTemplateOutletContext]="{ $implicit: row.original, row: row.original, index: row.index }" />
+            } @else {
+            {{ cell.getValue() }}
+            }
+          </td>
+          }
+          @if (rowActionsDef(); as actions) {
+          <td hlmTd>
+            <ng-container [ngTemplateOutlet]="actions.template"
+              [ngTemplateOutletContext]="{ $implicit: row.original, row: row.original, index: row.index }" />
+          </td>
+          }
+        </tr>
+        } @empty {
+        <tr hlmTr>
+          <td hlmTd class="text-muted-foreground h-24 text-center" [attr.colspan]="columnSpan()">Nenhum resultado.
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Paginação -->
+<hlm-numbered-pagination [currentPage]="pagination.pageIndex() + 1"
+  (currentPageChange)="pagination.setPageIndex($event - 1)" [itemsPerPage]="pagination.pageSize()"
+  (itemsPerPageChange)="pagination.setPageSize($event)" [totalItems]="pagination.totalCount()" />

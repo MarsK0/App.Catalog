@@ -12,6 +12,7 @@ export abstract class BaseForm<
   protected readonly fb = inject(FormBuilder);
 
   protected readonly loading = signal(false);
+
   protected readonly saving = signal(false);
 
   private readonly _id = signal<string | null>(null);
