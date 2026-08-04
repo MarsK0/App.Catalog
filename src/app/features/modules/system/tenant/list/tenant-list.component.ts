@@ -8,7 +8,6 @@ import { PaginationService } from "../../../../../shared/services/pagination.ser
 import { FormBuilder, ɵInternalFormsSharedModule, ReactiveFormsModule, FormControl, FormGroup } from "@angular/forms";
 import { HlmInputImports } from "@spartan-ng/helm/input";
 import { HlmTableImports } from "@spartan-ng/helm/table";
-import { HlmSpinnerImports } from "@spartan-ng/helm/spinner";
 import { HlmDropdownMenuImports } from "@spartan-ng/helm/dropdown-menu";
 import { BaseList } from "../../../../../shared/utils/base-list";
 import { Tenant } from "../../../../../core/models/system/tenant.model";
@@ -28,7 +27,7 @@ type TenantFilterForm = {
 @Component({
   selector: 'app-tenant-list',
   standalone: true,
-  imports: [HlmCardImports, HlmSpinnerImports, HlmDropdownMenuImports, HlmTableImports, HlmInputImports, HlmButtonImports, NgIcon, RouterLink, ɵInternalFormsSharedModule, ReactiveFormsModule, DataTableImports],
+  imports: [HlmCardImports, HlmDropdownMenuImports, HlmTableImports, HlmInputImports, HlmButtonImports, NgIcon, RouterLink, ɵInternalFormsSharedModule, ReactiveFormsModule, DataTableImports],
   providers: [
     PaginationService,
     provideIcons({

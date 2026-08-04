@@ -34,7 +34,7 @@ export abstract class BaseList<TModel, TFilter>{
       .subscribe(raw => {
         this.items.set(raw.items);
         this.pagination.setTotalCount(raw.totalCount);
-      })
+      });
   }
 
   applyFilter(filter: TFilter){

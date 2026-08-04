@@ -9,8 +9,8 @@ export interface SortParam {
 export class PaginationService {
   protected readonly _pageIndex = signal<number>(0);
   protected readonly _pageSize = signal<number>(10);
-  protected readonly _totalCount = signal<number>(0);
   protected readonly _sorting = signal<SortParam[]>([]);
+  protected readonly _totalCount = signal<number>(0);
 
   readonly pageIndex = this._pageIndex.asReadonly();
   readonly pageSize = this._pageSize.asReadonly();

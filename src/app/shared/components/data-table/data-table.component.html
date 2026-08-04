@@ -22,7 +22,9 @@
 <!-- Tabela -->
 <div class="overflow-hidden rounded-md border">
   <div hlmTableContainer>
+
     <table hlmTable>
+      <!-- Cabeçalho -->
       <thead hlmTHead>
         <tr hlmTr>
           @if (selectable()) {
@@ -68,7 +70,10 @@
           }
         </tr>
       </thead>
+
+      <!-- Corpo -->
       <tbody hlmTBody>
+        @if(!loading()){
         @for (row of table.getRowModel().rows; track row.id) {
         <tr hlmTr [attr.data-state]="row.getIsSelected() ? 'selected' : null">
           @if (selectable()) {
@@ -100,7 +105,15 @@
           </td>
         </tr>
         }
+        }@else {
+        <tr hlmTr>
+          <td hlmTd class="text-center" [attr.colspan]="columnSpan()">
+            <hlm-spinner class="text-[2rem]" />
+          </td>
+        </tr>
+        }
       </tbody>
+
     </table>
   </div>
 </div>

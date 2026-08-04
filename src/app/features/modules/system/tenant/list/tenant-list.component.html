@@ -21,7 +21,7 @@
   </hlm-card>
 
   <!-- Tabela -->
-  <app-data-table [data]="items()">
+  <app-data-table [data]="items()" [loading]="loading()">
 
     <!-- Slug -->
     <ng-container dtColumnDef="slug" label="Slug" sortable>

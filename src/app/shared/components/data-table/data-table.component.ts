@@ -20,17 +20,19 @@ import {
 import { DataTableColumnDef, DataTableRowActionsDef } from '../../directives/data-table.directive';
 import { PaginationService } from '../../services/pagination.service';
 import { HlmNumberedPagination } from '@spartan-ng/helm/pagination';
+import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [NgTemplateOutlet, NgClass, FormsModule, NgIcon, HlmButtonImports, HlmDropdownMenuImports, HlmInputImports, HlmTableImports, HlmNumberedPagination],
+  imports: [NgTemplateOutlet, HlmSpinnerImports, NgClass, FormsModule, NgIcon, HlmButtonImports, HlmDropdownMenuImports, HlmInputImports, HlmTableImports, HlmNumberedPagination],
   providers: [provideIcons({ lucideChevronDown, lucideArrowUpDown, lucideArrowUp, lucideArrowDown })],
   host: { class: 'block w-full' },
   templateUrl: './data-table.component.html',
 })
 export class DataTable<TModel extends Record<string, any>> implements OnInit {
   readonly data = input.required<TModel[]>();
+  readonly loading = input.required<boolean>();
   readonly selectable = input(false);
 
   protected readonly columnDefs = contentChildren(DataTableColumnDef<TModel>);
@@ -42,9 +44,6 @@ export class DataTable<TModel extends Record<string, any>> implements OnInit {
   protected readonly sorting = signal<SortingState>(this.pagination.sorting());
   private readonly _columnsVisibility = signal<VisibilityState>({});
   private readonly _rowSelection = signal<RowSelectionState>({});
-
-  /** coluna sendo arrastada agora, só pra feedback visual (highlight da alça) */
-  protected readonly resizingColumnId = signal<string | null>(null);
 
   private readonly _columnDefMap = computed(() => new Map(this.columnDefs().map((def) => [def.name, def] as const)));
 
@@ -65,7 +64,6 @@ export class DataTable<TModel extends Record<string, any>> implements OnInit {
       manualPagination: true,
       manualSorting: true,
       enableMultiSort: true,
-      enableColumnResizing: true,
       pageCount: Math.ceil(this.pagination.totalCount() / (this.pagination.pageSize() || 10)),
       state: {
         sorting: this.sorting(),
