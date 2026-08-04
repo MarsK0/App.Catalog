@@ -59,7 +59,7 @@ export class TenantFormComponent extends BaseForm<Tenant, TenantForm> {
   
   protected getById(id: string) { return this.tenancyService.getById(id) };
   protected create(tenant: Tenant) { return this.tenancyService.create(tenant) };
-  protected update(id: string, tenant: Tenant) { return this.tenancyService.update(id,tenant) };
+  protected update(id: string, tenant: Partial<Tenant>) { return this.tenancyService.update(id,tenant) };
   protected remove(id: string) { return this.tenancyService.delete(id) };
 
   protected override onSaveSuccess(tenant: Tenant) {

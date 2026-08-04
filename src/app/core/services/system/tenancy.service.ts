@@ -20,7 +20,7 @@ export class TenancyService {
     return this.http.post<Tenant>(`/api/tenancy/tenant`, tenant);
   }
 
-  update(id: string, tenant: Tenant): Observable<Tenant> {
+  update(id: string, tenant: Partial<Tenant>): Observable<Tenant> {
     return this.http.patch<Tenant>(`/api/tenancy/tenant/${id}`, tenant);
   }
 

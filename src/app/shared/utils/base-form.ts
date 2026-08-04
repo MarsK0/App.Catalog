@@ -92,17 +92,19 @@ export abstract class BaseForm<
   }
   private getChangedValues(): Partial<TModel> {
     const changes: Record<string, unknown> = {};
+
     Object.entries(this.modelForm.controls).forEach(([key, control]) => {
-      // Dirty já da conta de enviar o que foi alterado, mesmo que o valor efetivo seja igual,
-      // o EFCore vai marcar como modified somente se o valor efetivamente alterar
-      if(control.dirty && control.enabled){
+      if (control.dirty && control.enabled) {
         changes[key] = control.value;
       }
     });
+    
+    const id = this.id();
+    if (id) 
+      changes['id'] = id;
 
     return changes as Partial<TModel>;
   }
-
   protected abstract buildForm(): TForm;
   protected abstract getById(id: string): Observable<TModel>;
   protected abstract create(model: TModel): Observable<TModel>;
