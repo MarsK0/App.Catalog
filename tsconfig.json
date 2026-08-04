@@ -53,7 +53,8 @@
       "@spartan-ng/helm/pagination": [
         "./src/app/shared/components/spartan-ui/pagination/src/index.ts"
       ],
-      "@spartan-ng/helm/skeleton": ["./src/app/shared/components/spartan-ui/skeleton/src/index.ts"]
+      "@spartan-ng/helm/skeleton": ["./src/app/shared/components/spartan-ui/skeleton/src/index.ts"],
+      "@spartan-ng/helm/dialog": ["./src/app/shared/components/spartan-ui/dialog/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

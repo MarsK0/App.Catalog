@@ -1,13 +1,17 @@
 import { computed, Directive, effect, inject, OnInit, signal } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { finalize, Observable } from "rxjs";
+import { finalize, map, Observable, of } from "rxjs";
+import { CanComponentDeactivate } from "../../core/guards/unsaved-changes.guard";
+import { HlmDialogService } from "@spartan-ng/helm/dialog";
+import { ConfirmDialogComponent, ConfirmDialogContext } from "../components/confirm-dialog/confirm-dialog.component";
 
 @Directive()
 export abstract class BaseForm<
   TModel,
   TForm extends FormGroup = FormGroup
-> implements OnInit{
+> implements OnInit, CanComponentDeactivate {
+  protected readonly dialogService = inject(HlmDialogService);
   protected readonly route = inject(ActivatedRoute);
   protected readonly fb = inject(FormBuilder);
 
@@ -41,6 +45,18 @@ export abstract class BaseForm<
     }
   }
 
+  canDeactivate(): Observable<boolean> {
+    if(!this.modelForm.dirty) return of(true);
+    const ref = this.dialogService.open(ConfirmDialogComponent, {
+      context: {
+        message: "Há alterações que não foram salvas e serão descartadas se sair. Deseja sair?",
+        confirmLabel: "Sair",
+        cancelLabel: "Continuar edição"
+      } as ConfirmDialogContext
+    });
+    return ref.closed$.pipe(map(result => result === true));
+  }
+
   protected save(){
     if(this.modelForm.invalid){
       this.modelForm.markAllAsTouched();
@@ -64,7 +80,7 @@ export abstract class BaseForm<
       });
   }
   protected cancel(){
-    this.modelForm.reset(this.savedModel);
+    // this.modelForm.reset(this.savedModel);
     this.onCancel();
   }
   protected delete(){
