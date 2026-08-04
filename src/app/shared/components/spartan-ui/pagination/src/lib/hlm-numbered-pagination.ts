@@ -34,10 +34,18 @@ import { HlmPaginationPrevious } from './hlm-pagination-previous';
   template: `
     <div class="flex items-center justify-between gap-2 px-4 py-2">
       <div class="flex items-center gap-1 text-sm text-nowrap text-gray-600">
+        <b>{{ _firstItem() }}</b>
+        -
+        <b>{{ _lastItem() }}</b>
+        de
         <b>{{ totalItems() }}</b>
-        total items |
+
+        <span class="mx-1">|</span>
+
+        Página
+        <b>{{ currentPage() }}</b>
+        de
         <b>{{ _lastPageNumber() }}</b>
-        pages
       </div>
 
       <nav hlmPagination>
@@ -149,6 +157,19 @@ export class HlmNumberedPagination {
     return Math.ceil(this.totalItems() / this.itemsPerPage());
   });
 
+  protected readonly _firstItem = computed(() => {
+    if(this.totalItems() === 0) return 0;
+
+    return (this.currentPage() - 1) * this.itemsPerPage() + 1;
+  });
+
+  protected readonly _lastItem = computed(() => {
+    return Math.min(
+      this.currentPage() * this.itemsPerPage(),
+      this.totalItems()
+    );
+  });
+
   protected readonly _pages = computed(() => {
     const correctedCurrentPage = outOfBoundCorrection(
       this.totalItems(),
@@ -184,6 +205,7 @@ export class HlmNumberedPagination {
   protected goToLast(): void {
     this.currentPage.set(this._lastPageNumber());
   }
+
 }
 
 type Page = number | '...';

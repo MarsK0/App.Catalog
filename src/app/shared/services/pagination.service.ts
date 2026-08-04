@@ -8,7 +8,7 @@ export interface SortParam {
 @Injectable()
 export class PaginationService {
   protected readonly _pageIndex = signal<number>(0);
-  protected readonly _pageSize = signal<number>(1);
+  protected readonly _pageSize = signal<number>(10);
   protected readonly _totalCount = signal<number>(0);
   protected readonly _sorting = signal<SortParam[]>([]);
 

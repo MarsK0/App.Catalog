@@ -10,7 +10,6 @@ import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
   type ColumnDef,
   type ColumnFiltersState,
-  type ColumnSizingState,
   createAngularTable,
   getCoreRowModel,
   type RowSelectionState,
