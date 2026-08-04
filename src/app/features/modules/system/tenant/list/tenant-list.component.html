@@ -1,4 +1,4 @@
-<hlm-card class="w-full p-5">
+<div class="w-full p-5">
   <!-- Header -->
   <div class="w-full flex justify-end">
     <a [routerLink]="['include']" hlmBtn variant="default"
@@ -33,10 +33,10 @@
         <hlm-dropdown-menu class="w-40">
           <hlm-dropdown-menu-group>
             <button hlmDropdownMenuItem
-              class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:bg-gray-200! dark:hover:bg-blue-800!"
+              class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:text-white! hover:bg-blue-800! dark:hover:bg-blue-800!"
               (click)="edit(tenant.id)">
               Editar
-              <ng-icon name="lucidePencil" />
+              <ng-icon name="lucidePencil" class="[&>svg]:group-hover:stroke-white!" />
             </button>
           </hlm-dropdown-menu-group>
         </hlm-dropdown-menu>
@@ -44,4 +44,4 @@
     </ng-template>
   </app-data-table>
 
-</hlm-card>
+</div>
