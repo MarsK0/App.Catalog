@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 export const systemRoutes: Routes = [
   {
     path: 'tenant',
-    data: { breadcrumb: 'Clientes' },
+    data: { breadcrumb: 'Clientes', navigable: true },
     children: [
       {
         path: '',
