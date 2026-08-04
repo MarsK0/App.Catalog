@@ -50,8 +50,11 @@ export abstract class BaseList<TModel, TFilter>{
 
     const sorting = this.pagination.sorting();
     if(sorting.length > 0){
-      const sortExp = sorting.map(m => `${m.id} ${m.desc ? 'desc' : 'asc' }`).join(',');
-      params = params.set('sort', sortExp);
+      sorting.forEach((sort, index) => {
+        params = params
+          .set(`Sort[${index}].Field`, sort.id)
+          .set(`Sort[${index}].Desc`, sort.desc.toString());
+      });
     }
 
     Object.entries(this.filter as Record<string, unknown>).forEach(

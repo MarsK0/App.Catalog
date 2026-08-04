@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmButtonImports } from "@spartan-ng/helm/button";
 import { NgIcon, provideIcons } from "@ng-icons/core";
@@ -14,6 +14,8 @@ import { BaseList } from "../../../../../shared/utils/base-list";
 import { Tenant } from "../../../../../core/models/system/tenant.model";
 import { DataTableImports } from "../../../../../shared/components/data-table";
 import { NavigationService } from "../../../../../shared/services/navigation.service";
+import { debounceTime, distinctUntilChanged } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 interface TenantFilter {
   search: string | null;
@@ -37,7 +39,8 @@ type TenantFilterForm = {
   ],
   templateUrl: './tenant-list.component.html'
 })
-export class TenantListComponent extends BaseList<Tenant, TenantFilterForm> {
+export class TenantListComponent extends BaseList<Tenant, TenantFilter> implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly navigation = inject(NavigationService);
   private readonly fb = inject(FormBuilder);
 
@@ -47,6 +50,18 @@ export class TenantListComponent extends BaseList<Tenant, TenantFilterForm> {
  
   constructor(){
     super('/api/tenancy/tenant');
+  }
+
+  ngOnInit(): void {
+    this.filterForm.controls.search.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        this.applyFilter(this.filterForm.getRawValue());
+      })
   }
 
   protected edit(id: string){

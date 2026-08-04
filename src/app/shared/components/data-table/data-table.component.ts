@@ -39,8 +39,7 @@ export class DataTable<TModel extends Record<string, any>> implements OnInit {
 
   protected readonly pagination = inject(PaginationService);
 
-  protected readonly sorting = signal<SortingState>([]);
-  private readonly _columnFilters = signal<ColumnFiltersState>([]);
+  protected readonly sorting = signal<SortingState>(this.pagination.sorting());
   private readonly _columnsVisibility = signal<VisibilityState>({});
   private readonly _rowSelection = signal<RowSelectionState>({});
 
@@ -65,11 +64,11 @@ export class DataTable<TModel extends Record<string, any>> implements OnInit {
       columns: this.columns(),
       manualPagination: true,
       manualSorting: true,
+      enableMultiSort: true,
       enableColumnResizing: true,
       pageCount: Math.ceil(this.pagination.totalCount() / (this.pagination.pageSize() || 10)),
       state: {
         sorting: this.sorting(),
-        columnFilters: this._columnFilters(),
         columnVisibility: this._columnsVisibility(),
         rowSelection: this._rowSelection(),
         pagination: {
@@ -78,8 +77,8 @@ export class DataTable<TModel extends Record<string, any>> implements OnInit {
         },
       },
       onSortingChange: (updater) => {
-        const currentSorting = this.pagination.sorting();
-        const nextSorting = typeof updater === 'function' ? updater(currentSorting) : updater;
+        const nextSorting = typeof updater === 'function' ? updater(this.sorting()) : updater;
+        this.sorting.set(nextSorting);
         this.pagination.setSorting(nextSorting);
       },
       onPaginationChange: (updater) => {
