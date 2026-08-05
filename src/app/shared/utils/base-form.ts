@@ -1,10 +1,11 @@
 import { computed, Directive, effect, inject, OnInit, signal } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { finalize, map, Observable, of } from "rxjs";
+import { finalize, map, Observable, of, switchMap } from "rxjs";
 import { CanComponentDeactivate } from "../../core/guards/unsaved-changes.guard";
 import { HlmDialogService } from "@spartan-ng/helm/dialog";
-import { ConfirmDialogComponent, ConfirmDialogContext } from "../components/confirm-dialog/confirm-dialog.component";
+import { UnsavedChangesDialog } from "../components/dialogs/unsaved-changes-dialog.component";
+import { DeleteDialog } from "../components/dialogs/delete-dialog.component";
 
 @Directive()
 export abstract class BaseForm<
@@ -47,13 +48,7 @@ export abstract class BaseForm<
 
   canDeactivate(): Observable<boolean> {
     if(!this.modelForm.dirty) return of(true);
-    const ref = this.dialogService.open(ConfirmDialogComponent, {
-      context: {
-        message: "Há alterações que não foram salvas e serão descartadas se sair. Deseja sair?",
-        confirmLabel: "Sair",
-        cancelLabel: "Continuar edição"
-      } as ConfirmDialogContext
-    });
+    const ref = this.dialogService.open(UnsavedChangesDialog);
     return ref.closed$.pipe(map(result => result === true));
   }
 
@@ -80,18 +75,28 @@ export abstract class BaseForm<
       });
   }
   protected cancel(){
-    // this.modelForm.reset(this.savedModel);
+    this.modelForm.reset(this.savedModel);
     this.onCancel();
   }
   protected delete(){
     const id = this.id();
     if(!id) return;
 
-    this.saving.set(true);
-    this.remove(id)
-      .pipe(finalize(() => this.saving.set(false)))
+    this.confirmDelete()
+      .pipe(
+        switchMap(confirmed => {
+          if(!confirmed)
+            return of(null);
+          this.saving.set(true);
+          return this.remove(id).pipe(finalize(() => this.saving.set(false)));
+        })
+      )
       .subscribe({
-        next: () => this.onDeleteSuccess(),
+        next: result => {
+          if(result === null) return; // usuário cancelou, não faz nada
+          this.modelForm.markAsPristine();
+          this.onDeleteSuccess();
+        },
         error: err => this.onDeleteError(err)
       });
   }
@@ -120,6 +125,10 @@ export abstract class BaseForm<
       changes['id'] = id;
 
     return changes as Partial<TModel>;
+  }
+  private confirmDelete(): Observable<boolean>{
+    const ref = this.dialogService.open(DeleteDialog);
+    return ref.closed$.pipe(map(result => result === true));
   }
   protected abstract buildForm(): TForm;
   protected abstract getById(id: string): Observable<TModel>;
