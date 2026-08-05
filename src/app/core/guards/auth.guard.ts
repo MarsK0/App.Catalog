@@ -1,11 +1,11 @@
 import { isPlatformBrowser } from "@angular/common";
 import { inject, PLATFORM_ID } from "@angular/core";
 import { CanActivateFn } from "@angular/router";
-import { AuthService } from "../auth/auth.service";
+import { AuthService } from "../services/auth/auth.service";
 import { NavigationService } from "../../shared/services/navigation.service";
 import { map } from "rxjs";
 
-export const AuthGuard: CanActivateFn = (_route, _) => {
+export const AuthGuard: CanActivateFn = (_route, state) => {
   const platformId = inject(PLATFORM_ID);
   if(!isPlatformBrowser(platformId)){
     return true;
@@ -14,7 +14,12 @@ export const AuthGuard: CanActivateFn = (_route, _) => {
   const authService = inject(AuthService);
   const navService = inject(NavigationService);
 
+  const isLoginRoute = state.url.includes('/auth/login');
+
   if(authService.isAuthenticated()){
+    if(isLoginRoute)
+      return navService.createUrlTree(['/']);
+    
     return true;
   }
 

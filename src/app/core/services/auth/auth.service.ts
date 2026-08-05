@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { computed, inject, Injectable, signal } from "@angular/core";
 import { TokenService } from "./token.service";
-import { AuthenticatedUser, LoginRequest, LoginResponse } from "../models/auth/auth.model";
+import { AuthenticatedUser, LoginRequest, LoginResponse } from "../../models/auth/auth.model";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { environment } from "../../../environments/environment";
-import { NavigationService } from "../../shared/services/navigation.service";
+import { environment } from "../../../../environments/environment"; 
+import { NavigationService } from "../../../shared/services/navigation.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService{

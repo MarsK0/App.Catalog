@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
-import { AuthService } from "../../../../core/auth/auth.service";
+import { AuthService } from "../../../../core/services/auth/auth.service";
 import { HlmSidebarImports, HlmSidebarService } from "@spartan-ng/helm/sidebar";
 import { HlmAvatarImports } from "@spartan-ng/helm/avatar";
 import { NgIcon, provideIcons } from "@ng-icons/core";

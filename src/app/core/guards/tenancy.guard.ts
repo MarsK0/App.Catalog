@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from "@angular/router";
 import { TenancyResolverService } from "../../shared/services/tenancy-resolver.service";
 import { inject } from "@angular/core";
-import { TenancyService } from "../../shared/services/tenancy.service";
+import { TenancyService } from "../services/system/tenancy.service";
 import { catchError, map, of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 

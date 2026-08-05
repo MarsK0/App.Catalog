@@ -1,4 +1,4 @@
-import { TokenService } from "../core/auth/token.service"
+import { TokenService } from "../core/services/auth/token.service"
 import { inject } from "@angular/core";
 import { HttpBackend, HttpClient, HttpErrorResponse, HttpInterceptorFn, HttpRequest, HttpResponse } from "@angular/common/http";
 import { ToastService } from "../shared/services/toast.service";
@@ -18,7 +18,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = tokenService.getToken();
   const requestWithToken = token
-    ? req.clone({ setHeaders: { Authroization: `Bearer ${token}` } })
+    ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
     : req;
 
   return next(requestWithToken).pipe(

@@ -3,7 +3,7 @@
     <button class="cursor-pointer" hlmSidebarMenuButton size="lg" [hlmDropdownMenuTrigger]="menu" [side]="menuSide()"
       align="end">
       <hlm-avatar class="rouded-full">
-        <span class="rounded-full bg-[#0050fd] text-white" hlmAvatarFallback>MH</span>
+        <span class="rounded-full bg-[#0050fd] text-white" hlmAvatarFallback>PW</span>
       </hlm-avatar>
       <div class="grid flex-1 text-left text-sm leading-tight">
         <span class="truncate font-medium">{{ user()?.name ?? "" }}</span>
@@ -29,16 +29,16 @@
     </hlm-dropdown-menu-label>
     <hlm-dropdown-menu-separator />
     <button
-      class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:!bg-gray-200 dark:hover:!bg-gray-800"
+      class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:bg-gray-200! dark:hover:bg-gray-800!"
       hlmDropdownMenuItem>
       <ng-icon name="lucideSettings" />
       Configurações
     </button>
     <hlm-dropdown-menu-separator />
     <button (click)="logout()"
-      class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:!bg-red-500 dark:hover:!bg-red-900 hover:!text-white"
+      class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:bg-red-500! dark:hover:bg-red-900! hover:text-white!"
       hlmDropdownMenuItem>
-      <ng-icon name="lucideLogOut" class="[&>svg]:group-hover:!stroke-white" />
+      <ng-icon name="lucideLogOut" class="[&>svg]:group-hover:stroke-white!" />
       Logout
     </button>
   </hlm-dropdown-menu>
