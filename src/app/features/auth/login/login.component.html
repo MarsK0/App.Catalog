@@ -4,17 +4,16 @@
     <form class="flex flex-col items-center" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
       <div hlmFieldGroup>
         <div hlmField>
-          <label hlmFieldLabel for="email">E-mail</label>
-          <input hlmInput type="email" formControlName="email" autocomplete="email" placeholder="E-mail" id="email" />
+          <label hlmFieldLabel for="login">Usuário</label>
+          <input hlmInput type="text" formControlName="login" id="login" />
         </div>
         <div hlmField>
-          <label hlmFieldLabel for="passowrd">Senha</label>
-          <input hlmInput formControlName="password" autocomplete="current-password" placeholder="Senha" id="password"
-            type="password">
+          <label hlmFieldLabel for="password">Senha</label>
+          <input hlmInput formControlName="password" autocomplete="current-password" id="password" type="password">
         </div>
         <label hlmLabel class="flex items-center">
           <hlm-switch (checkedChange)="form.controls.rememberMe.setValue($event)"
-            class="mr-2 hover:cursor-pointer data-[state=unchecked]:bg-red-800/60! data-checked:bg-green-600" />
+            class="mr-2 hover:cursor-pointer data-[state=unchecked]:bg-red-600/60! data-checked:bg-green-600" />
           Lembrar-me
         </label>
         <button hlmBtn type="submit" variant="default"

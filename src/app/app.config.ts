@@ -4,10 +4,9 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { tenantInterceptor } from './core/auth/tenant.interceptor';
+import { tenancyInterceptor } from './interceptors/tenancy.interceptor';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { errorInterceptor } from './interceptors/errors.interceptor';
-import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(),
     provideHttpClient(
-      withInterceptors([tenantInterceptor, authInterceptor, errorInterceptor])
+      withInterceptors([tenancyInterceptor, authInterceptor, errorInterceptor])
     )
   ]
 };

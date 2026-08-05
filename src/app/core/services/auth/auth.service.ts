@@ -1,15 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { Router } from "@angular/router";
 import { TokenService } from "./token.service";
-import { AuthenticatedUser, LoginRequest, LoginResponse } from "../models/auth.model";
+import { AuthenticatedUser, LoginRequest, LoginResponse } from "../../models/auth/auth.model";
 import { catchError, map, Observable, of, tap } from "rxjs";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment"; 
+import { NavigationService } from "../../../shared/services/navigation.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService{
   private readonly _http = inject(HttpClient);
-  private readonly _router = inject(Router);
+  private readonly _navService = inject(NavigationService);
   private readonly _tokenService = inject(TokenService);
 
   private readonly _user = signal<AuthenticatedUser | null>(
@@ -19,7 +19,10 @@ export class AuthService{
   readonly user = this._user.asReadonly();
   readonly isAuthenticated = computed(() => this._user() !== null);
   readonly userName = computed(() => this._user()?.name ?? '');
-  readonly permissions = computed<readonly string[]>(() => this._user()?.permissions ?? []);
+  readonly permissions = computed<readonly string[]>(() => {
+    const permissions = this.user()?.roles.flatMap(m => m.permissions) ?? [];
+    return [...new Set(permissions)];
+  });
 
   canSilentlyRefresh(): boolean {
     return this._tokenService.shouldRefreshOnStart();
@@ -41,7 +44,7 @@ export class AuthService{
       .subscribe({ error: () => {} }) // ignora erros de rede no logout
       void this._tokenService.clear();
       this._user.set(null);
-      this._router.navigate(['/auth/login']);
+      this._navService.navigate(['/auth/login']);
   }
   trySilentRefresh(): Observable<boolean>{
     return this._http
@@ -61,7 +64,7 @@ export class AuthService{
       id: response.personId,
       name: response.name,
       email: response.email,
-      permissions: response.permissions ?? []
+      roles: response.roles,
     }
 
     this._tokenService.save(response.token, JSON.stringify(user), rememberMe);

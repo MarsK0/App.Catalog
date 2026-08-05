@@ -1,23 +1,32 @@
 import { Routes } from '@angular/router';
+import { TenancyGuard } from './core/guards/tenancy.guard';
 import { AuthGuard } from './core/guards/auth.guard';
+import { GuestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
-    path: 'auth/login',
-    loadComponent: () =>
-      import('./features/auth/login/login.component').then(m => m.LoginComponent)
+    path: 'notfound',
+    loadComponent: () => import('./layout/notfound/notfound.component').then(m => m.NotFoundComponent)
   },
   {
-    path: '',
-    canActivate: [AuthGuard],
-    loadComponent: () =>
-      import('./layout/shell/shell.component').then(m => m.ShellComponent),
+    path: ':slug',
+    canActivate: [TenancyGuard],
     children: [
       {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+        path: 'auth/login',
+        canActivate: [GuestGuard],
+        loadComponent:  () =>
+          import('./features/auth/login/login.component').then(m => m.LoginComponent)
+      },
+      {
+        path: '',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./layout/shell/shell.component').then(m => m.ShellComponent),
+        loadChildren: () => import('./features/modules/modules.routes').then(m => m.modulesRoutes)
+      },
+      {
+        path: '**',
+        redirectTo: ''
       }
     ]
   }

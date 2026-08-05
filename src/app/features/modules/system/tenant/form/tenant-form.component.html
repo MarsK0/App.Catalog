@@ -1,0 +1,59 @@
+<div class="w-full p-5">
+
+  <!-- Header ações -->
+  <div class="w-full flex flex-col sm:flex-row sm:justify-end gap-1">
+    <button (click)="save()" hlmBtn variant="default"
+      class="bg-green-500 cursor-pointer border border-green-500 hover:bg-transparent hover:text-green-500">
+      Salvar
+      <ng-icon name="lucideSave" />
+    </button>
+    <button (click)="cancel()" hlmBtn variant="default"
+      class="bg-orange-500 cursor-pointer border border-orange-500 hover:bg-transparent hover:text-orange-500">
+      Cancelar
+      <ng-icon name="lucideBan" />
+    </button>
+    @if(isEditMode()){
+    <button (click)="delete()" hlmBtn variant="default"
+      class="bg-red-500 cursor-pointer border border-red-500 hover:bg-transparent hover:text-red-500">
+      Excluir
+      <ng-icon name="lucideTrash2" />
+    </button>
+    }
+  </div>
+
+  <!-- Formulário -->
+  <form class="w-full flex flex-col" [formGroup]="modelForm">
+    <div hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-3">
+      <div hlmField>
+        <label hlmFieldLabel for="slug">Slug</label>
+        <input hlmInput type="text" id="slug" formControlName="slug">
+      </div>
+      <div hlmField>
+        <label hlmFieldLabel for="name">Nome</label>
+        <input hlmInput type="text" id="name" formControlName="name">
+      </div>
+      <div hlmField>
+        <label hlmFieldLabel for="modules">Módulos</label>
+        <hlm-combobox-multiple formControlName="modules">
+          <hlm-combobox-chips class="max-w-xs">
+            <ng-template hlmComboboxValues let-selectedModules>
+              @for(selectedModule of selectedModules; track $index){
+              <hlm-combobox-chip [value]="selectedModule">{{ moduleLabel(selectedModule) }}</hlm-combobox-chip>
+              }
+            </ng-template>
+
+            <input hlmComboboxChipInput>
+          </hlm-combobox-chips>
+          <hlm-combobox-content *hlmComboboxPortal>
+            <hlm-combobox-empty>Nenhum módulo encontrado</hlm-combobox-empty>
+            <div hlmComboboxList>
+              @for(module of modules; track module.code){
+              <hlm-combobox-item [value]="module.code">{{ module.label }}</hlm-combobox-item>
+              }
+            </div>
+          </hlm-combobox-content>
+        </hlm-combobox-multiple>
+      </div>
+    </div>
+  </form>
+</div>

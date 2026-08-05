@@ -1,0 +1,59 @@
+<div class="w-full p-5">
+  <!-- Header -->
+  <div class="w-full flex justify-end">
+    <a [routerLink]="['include']" hlmBtn variant="default"
+      class="bg-green-500 cursor-pointer border border-green-500 hover:bg-transparent hover:text-green-500">
+      Incluir
+      <ng-icon name="lucidePlus" />
+    </a>
+  </div>
+
+  <!-- Filtros -->
+  <hlm-card class="w-full p-5 my-5">
+    <form class="w-full" [formGroup]="filterForm">
+      <div hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-2">
+        <div hlmField>
+          <label hlmFieldLabel for="search">Buscar</label>
+          <input hlmInput type="text" id="search" formControlName="search">
+        </div>
+      </div>
+    </form>
+  </hlm-card>
+
+  <!-- Tabela -->
+  <app-data-table [data]="items()" [loading]="loading()">
+
+    <!-- Slug -->
+    <ng-container dtColumnDef="slug" label="Slug" sortable>
+      <ng-template dtCellDef let-tenant>
+        {{ tenant.slug }}
+      </ng-template>
+    </ng-container>
+
+    <!-- Name -->
+    <ng-container dtColumnDef="name" label="Nome" sortable>
+      <ng-template dtCellDef let-tenant>
+        {{ tenant.name }}
+      </ng-template>
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-template dtRowActions let-tenant>
+      <button hlmBtn class="cursor-pointer" variant="ghost" [hlmDropdownMenuTrigger]="menu"><ng-icon
+          name="lucideEllipsis" /></button>
+      <ng-template #menu>
+        <hlm-dropdown-menu class="w-40">
+          <hlm-dropdown-menu-group>
+            <button hlmDropdownMenuItem
+              class="cursor-pointer group focus:outline-none focus:bg-transparent focus-visible:outline-none focus-visible:bg-transparent hover:text-white! hover:bg-blue-800! dark:hover:bg-blue-800!"
+              (click)="edit(tenant.id)">
+              Editar
+              <ng-icon name="lucidePencil" class="[&>svg]:group-hover:stroke-white!" />
+            </button>
+          </hlm-dropdown-menu-group>
+        </hlm-dropdown-menu>
+      </ng-template>
+    </ng-template>
+  </app-data-table>
+
+</div>

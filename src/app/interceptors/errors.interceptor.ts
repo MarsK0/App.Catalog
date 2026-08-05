@@ -4,6 +4,10 @@ import { inject } from "@angular/core";
 import { catchError, throwError } from "rxjs";
 import { ApiResponse } from "../core/models/api-response.model";
 
+const SILENT_ROUTES: string[] = [
+  '/api/tenancy/slugexists'
+] 
+
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toastService = inject(ToastService);
 
@@ -11,7 +15,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((responseError: HttpErrorResponse) => {
       
       // 401 é tratado no auth interceptor
-      if(responseError.status !== 401){
+      if(responseError.status !== 401 && !SILENT_ROUTES.includes(req.url)){
         const body = responseError.error as ApiResponse | undefined;
         const message = body?.message;
 
@@ -20,7 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         }else if(responseError.status >= 500){
           toastService.error(message ?? 'Um erro ocorreu. Se persistir, contate o suporte.');
         }else if(responseError.status >= 400){
-          toastService.error(message ?? 'Não foi possível concluir a operação.');
+          toastService.warning(message ?? 'Não foi possível concluir a operação.');
         }
       }
 
