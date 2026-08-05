@@ -1,59 +1,62 @@
-# AppCatalog
+# App.Catalog
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.5.
+> ⚠️ **Status: em desenvolvimento — projeto não funcional no momento.**
+> Estrutura inicial gerada via Angular CLI. Ainda não há telas/fluxos funcionais nem integração completa com a API.
 
-## Development server
+Front-end do **Api.Catalog** ([repositório da API](https://github.com/MarsK0/Api.Catalog)) — catálogo de produtos e gestão de orçamentos/pedidos, com suporte a multi-tenancy. Para detalhes de domínio e regras de negócio, ver o README da API.
 
-To start a local development server, run:
+## Tecnologias
 
-```bash
-ng serve
+- **Angular** (CLI v22, standalone components, SSR habilitado — `main.server.ts`/`server.ts`)
+- **TypeScript**
+- **Tailwind CSS / PostCSS** (`.postcssrc.json`)
+- **Spartan/ui** (*shadcn/ui* para Angular) — componentes de UI configurados via `components.json`
+- **RxJS** para fluxos assíncronos (HTTP, interceptors)
+
+## Estrutura de pastas (raiz)
+
+```
+App.Catalog/
+├── .vscode/
+├── public/                  # Assets estáticos
+├── src/                     # Código-fonte (ver detalhamento abaixo)
+├── .postcssrc.json          # Configuração do PostCSS/Tailwind
+├── angular.json              # Configuração do workspace Angular
+├── components.json           # Configuração do Spartan/ui (shadcn/ui para Angular)
+├── proxy.conf.json           # Proxy de desenvolvimento para a API
+├── tsconfig*.json
+└── package.json
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Estrutura interna de `src`
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+src/
+├── app/
+│   ├── app.ts / app.routes.ts / app.config.ts   # Bootstrap, rotas e providers
+│   ├── core/            # Autenticação (service, guard, token) e models
+│   ├── interceptors/    # Interceptors HTTP globais (auth, erros, tenant)
+│   ├── features/        # Telas/fluxos de negócio (login, dashboard)
+│   ├── layout/          # Shell da aplicação (sidebar, header)
+│   └── shared/          # Componentes e serviços reutilizáveis (inclui Spartan/ui)
+│
+├── environments/        # Variáveis de ambiente
+├── index.html
+├── main.ts / main.server.ts / server.ts   # Bootstrap client-side e SSR
+└── styles.css
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **`core/`**: autenticação (login, sessão, refresh de token) e guard de rotas.
+- **`interceptors/`**: tratamento transversal de requisições HTTP (token, tenant, erros).
+- **`features/`**: telas de negócio, carregadas via lazy loading.
+- **`layout/`**: estrutura visual (sidebar, header) que envolve as telas autenticadas.
+- **`shared/`**: componentes/serviços comuns, incluindo a biblioteca **Spartan/ui**.
+
+> A resolução do tenant pela URL e a integração com `/me` (descritas no README da API) ainda não estão implementadas — hoje o tenant é fixo por ambiente.
+
+## Scripts disponíveis
 
 ```bash
-ng generate --help
+npm install     # instalar dependências
+ng serve        # servidor de desenvolvimento (http://localhost:4200)
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
