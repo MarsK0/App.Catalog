@@ -1,10 +1,10 @@
 import { inject, Pipe, PipeTransform } from "@angular/core";
-import { TenancyResolverService } from "../services/tenancy-resolver.service";
+import { TenantContextService } from "../services/tenant-context.service";
 
 
 @Pipe({ name: 'slugLink', standalone: true })
 export class SlugLinkPipe implements PipeTransform {
-  private tenancyService = inject(TenancyResolverService);
+  private tenancyService = inject(TenantContextService);
 
   transform(path: string | string[]) {
     const slug = this.tenancyService.slug();

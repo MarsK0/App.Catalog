@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router, UrlTree } from "@angular/router";
-import { TenancyResolverService } from "./tenancy-resolver.service";
+import { TenantContextService } from "./tenant-context.service";
 import { filter } from "rxjs";
 
 export type Breadcrumb = {
@@ -11,7 +11,7 @@ export type Breadcrumb = {
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
   private router = inject(Router);
-  private tenancyResolverService = inject(TenancyResolverService);
+  private tenancyResolverService = inject(TenantContextService);
   private _breadcrumbs = signal<Breadcrumb[]>([]);
 
   public readonly breadcrumbs = this._breadcrumbs.asReadonly();

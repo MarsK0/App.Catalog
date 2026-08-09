@@ -31,6 +31,8 @@ export const AuthGuard: CanActivateFn = (_route, state) => {
       })
     )
   }
+  if(!!authService.user())
+    authService.logout();
 
   return navService.createUrlTree(['/auth/login']);
 }
