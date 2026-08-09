@@ -1,5 +1,5 @@
 import { CanActivateFn, Router } from "@angular/router";
-import { TenancyResolverService } from "../../shared/services/tenancy-resolver.service";
+import { TenantContextService } from "../../shared/services/tenant-context.service";
 import { inject } from "@angular/core";
 import { TenancyService } from "../services/system/tenancy.service";
 import { catchError, map, of } from "rxjs";
@@ -10,7 +10,7 @@ export const TenancyGuard: CanActivateFn = (route, _) => {
   const slug = route.paramMap.get('slug');
 
   if(slug)
-    inject(TenancyResolverService).setSlug(slug);
+    inject(TenantContextService).setSlug(slug);
 
   return inject(TenancyService).checkSlugExists()
     .pipe(

@@ -5,19 +5,24 @@ import { AuthenticatedUser, LoginRequest, LoginResponse } from "../../models/aut
 import { catchError, map, Observable, of, tap } from "rxjs";
 import { environment } from "../../../../environments/environment"; 
 import { NavigationService } from "../../../shared/services/navigation.service";
+import { TenantContextService } from "../../../shared/services/tenant-context.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService{
   private readonly _http = inject(HttpClient);
   private readonly _navService = inject(NavigationService);
   private readonly _tokenService = inject(TokenService);
+  private readonly _tenantContextService = inject(TenantContextService);
 
   private readonly _user = signal<AuthenticatedUser | null>(
     this._restoreUserSession()
   );
 
   readonly user = this._user.asReadonly();
-  readonly isAuthenticated = computed(() => this._user() !== null);
+  readonly isAuthenticated = computed(() => {
+    const slug = this._tenantContextService.slug();
+    return this._user() !== null && this._user()?.tenantSlug === slug;
+  });
   readonly userName = computed(() => this._user()?.name ?? '');
   readonly permissions = computed<readonly string[]>(() => {
     const permissions = this.user()?.roles.flatMap(m => m.permissions) ?? [];
@@ -40,11 +45,10 @@ export class AuthService{
       .pipe(tap(response => this._handleLogin(response, request.rememberMe ?? false)));
   }
   logout(): void {
-    this._http.post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true })
-      .subscribe({ error: () => {} }) // ignora erros de rede no logout
-      void this._tokenService.clear();
-      this._user.set(null);
-      this._navService.navigate(['/auth/login']);
+    this._http.post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true }); // ignora erros de rede no logout
+    this._tokenService.clear();
+    this._user.set(null);
+    this._navService.navigate(['/auth/login']);
   }
   trySilentRefresh(): Observable<boolean>{
     return this._http
@@ -64,6 +68,7 @@ export class AuthService{
       id: response.personId,
       name: response.name,
       email: response.email,
+      tenantSlug: this._tenantContextService.slug()!,
       roles: response.roles,
     }
 
