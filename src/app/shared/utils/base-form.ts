@@ -59,7 +59,7 @@ export abstract class BaseForm<
     }
 
     this.saving.set(true);
-    const value = this.modelForm.getRawValue() as TModel;
+    const value = this.modelForm.getRawValue();
     const request$ = this.isEditMode()
       ? this.update(this._id()!, this.getChangedValues())
       : this.create(value);

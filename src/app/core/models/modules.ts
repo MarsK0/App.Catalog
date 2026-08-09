@@ -40,9 +40,9 @@ const COMERCIAL: IModuleNavItem = {
 };
 // #endregion
 
-export const MODULES: readonly IModuleNavItem[] = [
-  SYSTEM,
+export const TENANT_MODULES: readonly IModuleNavItem[] = [
   TABLES,
   CATALOG,
   COMERCIAL,
 ];
+export const MODULES: readonly IModuleNavItem[] = [SYSTEM, ...TENANT_MODULES];
