@@ -19,5 +19,6 @@ export interface AuthenticatedUser {
   readonly id: string;
   readonly name: string;
   readonly email: string;
+  readonly tenantSlug: string;
   readonly roles: readonly RoleInfo[];
 }
