@@ -22,8 +22,13 @@
   </div>
 
   <!-- Formulário -->
-  <form class="w-full flex flex-col" [formGroup]="modelForm">
-    <div hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-3">
+  <form class="w-full flex flex-col gap-5 py-5" [formGroup]="modelForm">
+    <!-- Informações Tenant -->
+    <fieldset hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-3 rounded-lg border p-4">
+      <legend class="text-sm font-medium">
+        Tenant
+      </legend>
+
       <div hlmField>
         <label hlmFieldLabel for="slug">Slug</label>
         <input hlmInput type="text" id="slug" formControlName="slug">
@@ -54,6 +59,40 @@
           </hlm-combobox-content>
         </hlm-combobox-multiple>
       </div>
-    </div>
+    </fieldset>
+
+    <!-- Informações Tenant Owner -->
+    @if(!isEditMode()){
+    <fieldset hlmFieldGroup class="w-full grid grid-cols-12 rounded-lg border p-4">
+      <legend class="text-sm font-medium">
+        Tenant Owner
+      </legend>
+
+      <div hlmField class="col-span-12 lg:col-span-4">
+        <label hlmFieldLabel for="ownerName">Nome*</label>
+        <input hlmInput type="text" id="ownerName" formControlName="ownerName">
+      </div>
+      <div hlmField class="col-span-12 lg:col-span-4">
+        <label hlmFieldLabel for="ownerEmail">E-Mail*</label>
+        <input hlmInput type="text" id="ownerEmail" formControlName="ownerEmail">
+      </div>
+      <div hlmField class="col-span-12 lg:col-span-4">
+        <label hlmFieldLabel for="ownerLogin">Login*</label>
+        <input hlmInput type="text" id="ownerLogin" formControlName="ownerLogin">
+      </div>
+      <div hlmField class="col-span-12 lg:col-span-4">
+        <label hlmFieldLabel for="ownerPassword">Senha*</label>
+        <input hlmInput type="password" id="ownerPassword" formControlName="ownerPassword">
+      </div>
+      <div hlmField class="col-span-12 lg:col-span-4">
+        <label hlmFieldLabel for="ownerPasswordConfirm">Confirmar Senha*</label>
+        <input hlmInput type="password" id="ownerPasswordConfirm" formControlName="ownerPasswordConfirm">
+      </div>
+      <div hlmField class="col-span-12 lg:col-span-4">
+        <label hlmFieldLabel for="ownerPhone">Telefone</label>
+        <input hlmInput type="text" id="ownerPhone" formControlName="ownerPhone">
+      </div>
+    </fieldset>
+    }
   </form>
 </div>

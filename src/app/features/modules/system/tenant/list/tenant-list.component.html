@@ -9,16 +9,18 @@
   </div>
 
   <!-- Filtros -->
-  <hlm-card class="w-full p-5 my-5">
-    <form class="w-full" [formGroup]="filterForm">
-      <div hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-2">
-        <div hlmField>
-          <label hlmFieldLabel for="search">Buscar</label>
-          <input hlmInput type="text" id="search" formControlName="search">
-        </div>
+  <form class="w-full" [formGroup]="filterForm">
+    <fieldset hlmFieldGroup class="w-full grid grid-cols-1 lg:grid-cols-2 rounded-lg border p-4">
+      <legend class="text-sm font-medium">
+        Filtros
+      </legend>
+
+      <div hlmField>
+        <label hlmFieldLabel for="search">Buscar</label>
+        <input hlmInput type="text" id="search" formControlName="search">
       </div>
-    </form>
-  </hlm-card>
+    </fieldset>
+  </form>
 
   <!-- Tabela -->
   <app-data-table [data]="items()" [loading]="loading()">

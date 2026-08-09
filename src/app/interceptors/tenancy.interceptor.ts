@@ -10,10 +10,14 @@ export const tenancyInterceptor: HttpInterceptorFn = (req, next) => {
   if(!slug)
     return next(req);
 
-  if(slug === PLATFORM_SLUG)
+  if(slug === PLATFORM_SLUG){
     headers['Catalog-Platform-Context'] = 'true';
-  else
+    delete headers['Catalog-Tenant-Context'];
+  }
+  else{
+    headers['Catalog-Platform-Context'] = 'false';
     headers['Catalog-Tenant-Context'] = slug;
+  }
 
   return next(req.clone({ setHeaders: headers}));
 }
